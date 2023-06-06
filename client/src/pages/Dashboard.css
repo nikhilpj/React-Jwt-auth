@@ -1,0 +1,19 @@
+.header{
+
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.header > button{
+    width: 80px;
+    height: auto;
+}
+.header > h1{
+    justify-content: center;
+}
+
+.container {
+    
+}
+    

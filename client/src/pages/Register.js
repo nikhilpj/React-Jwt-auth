@@ -29,9 +29,9 @@ const navigate = useNavigate()
     }
   }
   return (
-    <div >
+    <div className='forms'>
       <h1>Register</h1>
-      <form onSubmit={registerUser}>
+      <form className='register' onSubmit={registerUser}>
         <input type='text' value={name} onChange={(e)=>{setName(e.target.value)}} placeholder="name" />
         <br/>
         <input type = 'email' value={email} onChange={(e)=>{setEmail(e.target.value)}} placeholder='email' />

@@ -1,6 +1,6 @@
 import {useState} from 'react'
 
-
+ 
 function App() {
 
   
@@ -8,7 +8,7 @@ function App() {
   const [password,setPassword] = useState('')
 
   async function LoginUser(event)
-  {
+  { 
     event.preventDefault()
    const response = await fetch('http://localhost:3001/api/login',{
     method:'POST',
@@ -36,9 +36,9 @@ function App() {
     console.log(data)
   }
   return (
-    <div >
+    <div className='forms'>
       <h1>Login</h1>
-      <form onSubmit={LoginUser}>
+      <form className='login' onSubmit={LoginUser}>
        
         <input type = 'email' value={email} onChange={(e)=>{setEmail(e.target.value)}} placeholder='email' />
         <br/>
@@ -46,6 +46,7 @@ function App() {
         <br/>
         <input type='submit' value='Login' />
       </form>
+      <button>Dont have an account ? Register here</button>
     </div>
   );
 }

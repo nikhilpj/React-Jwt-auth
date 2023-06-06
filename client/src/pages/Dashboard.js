@@ -1,84 +1,63 @@
 import React, { useEffect, useState } from "react";
 import jwt_decode from "jwt-decode";
-import { useNavigate} from 'react-router-dom'
+import {  useNavigate} from 'react-router-dom'
+import './Dashboard.css'
+
+
 
 
 const Dashboard = ()=>{
-    const navigate = useNavigate()
-    const [quote,setQuote] = useState('')
-    const [tempQuote,setTempQuote] =useState('')
+    const navigate= useNavigate()
+    const [name,setName] = useState('')
+    const [email,setEmail] = useState('')
 
-async function populateQuote()
-{
-    const req = await fetch('http://localhost:3001/api/quote',{
-        headers:{
-            'x-access-token' : localStorage.getItem('token')
-        }
-    })
+   function Logout(){
+    localStorage.removeItem("token");
+    window.location.href='/login'
 
-    const data = await req.json()
-    if(data.status ==='ok')
-    {
-        setQuote(data.quote)
-    }
-    else{
-        alert(data.error)
-    }
-}
-
-useEffect(()=>{
-const token = localStorage.getItem('token')
-if(token)
-{
-  const user = jwt_decode(token)
-   if(!user)
-   {
-    localStorage.removeItem('token')
-    navigate('/login')
    }
-   else{
-    populateQuote()
-   }
-}
+ 
 
-},[])
-
-async function updateQuote(e){
-    e.preventDefault()
-    const req = await fetch('http://localhost:3001/api/quote',{
-        method:'POST',
-        headers:{
-            'Content-Type' :'application/json',
-            'x-access-token' : localStorage.getItem('token')
-        },
-        body: JSON.stringify({
-                quote:tempQuote,
-
-            })
-        
-    })
-
-    const data =await req.json()
-    if(data.status ==='ok')
-    {
-        setQuote(tempQuote)
-        setTempQuote('')
-        
-    }
-    else{
-        alert(data.error)
-    }
+    useEffect(()=>{
+        const token = localStorage.getItem('token')
+        const user = jwt_decode(token)
+        setName(user.name)
+        setEmail(user.email)
+        console.log(user)
+    },[])
    
+console.log('name and email',name)
 
+    function Movetoedit(){
+       navigate('/edit')
+    }
+
+
+  
+    return(
+        
+       
+        <div className="container">
+            <div className="header">
+            <h1 >user profile</h1>
+            <button onClick={Movetoedit}>edit Profile of {name}</button>
+            <button onClick={Logout} style={{width:'70px',height:'auto'}}>Logout</button>
+            </div>
+            <br></br>
+            
+            <div className="image">
+            <img src={`http://localhost:3001/uploads/${name}.png`} alt="profile image" style={{width:'200px',height:'auto'}}></img>
+            </div>
+            <h3>Name : {name}</h3>
+            
+            <h3>Email : {email}</h3>
+           
+          
+        </div>
+       
+        
+    )
 }
 
-    return <div>
-    <h1>your quote:{quote || 'no quote found'}</h1>
-    <form onSubmit={updateQuote}>
-        <input type="text" placeholder="Quote" value={tempQuote} onChange={(e)=>setTempQuote(e.target.value)} />
-    
-    <input type="submit" value='update quote' />
-    </form>
-    </div>
-}
+
 export default Dashboard
